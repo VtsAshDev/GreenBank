@@ -11,4 +11,3 @@ Route::get('/user', function (Request $request) {
 
 Route::post('/store',[UserController::class,'store']);
 Route::post('/transfer',[TransactionController::class,'transfer']);
-Route::post('/deposit',[UserController::class,'deposit']);
