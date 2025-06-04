@@ -21,6 +21,8 @@ class UserController extends Controller
 
         return response()->json([
             'message' => 'Usuário criado com sucesso',
+        ], Response::HTTP_CREATED);
+            'message' => 'Usuário criado com sucesso',
         ],201);
     }
 }
