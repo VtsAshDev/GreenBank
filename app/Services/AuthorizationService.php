@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Http;
 
 class AuthorizationService
 {
-    public function isAuthorized():bool
+    public function isAuthorized(): bool
     {
         try {
             $response = Http::timeout(5)->get('https://util.devi.tools/api/v2/authorize');
