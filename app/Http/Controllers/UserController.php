@@ -6,6 +6,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
 use App\Models\Wallet;
 use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
@@ -22,7 +23,5 @@ class UserController extends Controller
         return response()->json([
             'message' => 'Usuário criado com sucesso',
         ], Response::HTTP_CREATED);
-            'message' => 'Usuário criado com sucesso',
-        ],201);
     }
 }
