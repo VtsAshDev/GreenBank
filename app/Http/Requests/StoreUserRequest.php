@@ -24,7 +24,7 @@ class StoreUserRequest extends FormRequest
 
         return [
             'name' => ['required', 'string', 'max:255'],
-            'document' => ['required', 'string', 'size:14'],
+            'document' => ['required', 'string', 'regex:/^\d{11}$|^\d{14}$/', 'min:11','max:14'],
             'shopkeeper' => ['boolean'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'min:8'],
@@ -41,6 +41,7 @@ class StoreUserRequest extends FormRequest
             'document.required' => "O campo documento <UNK> obrigatorio",
             'document.string' => "O campo documento deve ser uma string",
             'document.size' => "O campo deve ter 14 caracteres",
+            'document.regex' => 'O documento deve conter 11 (CPF) ou 14 (CNPJ) dígitos numéricos.',
 
             'shopkeeper.boolean' => "O campo shopkeeper deve ser um boolean",
 
