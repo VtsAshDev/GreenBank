@@ -6,6 +6,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
 use App\Models\Wallet;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
