@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
+use App\Mail\WelcomeEmail;
 use App\Models\User;
 use App\Models\Wallet;
 use Illuminate\Http\JsonResponse;
@@ -18,6 +19,8 @@ class UserController extends Controller
         Wallet::create([
             'user_id' => $user->id,
         ]);
+
+        Mail::to($user->email)->send(new WelcomeEmail());
 
         return response()->json([
             'message' => 'Usuário criado com sucesso',

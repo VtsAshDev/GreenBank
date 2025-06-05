@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TransferRequest;
+use App\Mail\TransferEmail;
 use App\Models\User;
 use App\Models\Transaction;
 use App\Services\AuthorizationService;
 use App\Services\NotificationService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Symfony\Component\HttpFoundation\Response;
 
 class TransactionController extends Controller
@@ -54,6 +56,8 @@ class TransactionController extends Controller
                 'value' => $validated['value'],
             ]);
         });
+
+        Mail::to($payer->email)->send(new TransferEmail($payer, $payee, $validated['value']));
 
         $this->notification->notify([
             'transaction_id' => $transaction->id,

@@ -11,3 +11,7 @@ Route::get('/user', function (Request $request) {
 
 Route::post('/store',[UserController::class,'store']);
 Route::post('/transfer',[TransactionController::class,'transfer']);
+Route::get('/teste-email',function () {
+    Mail::to('vitorgguimaraes56@gmail.com')->send(new \App\Mail\WelcomeEmail());
+    return 'Email enviado';
+});
