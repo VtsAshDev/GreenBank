@@ -13,9 +13,7 @@ class UserController extends Controller
 {
     public function store(StoreUserRequest $request): JsonResponse
     {
-        $validated = $request->validated();
-
-        $user = User::create($validated);
+        $user = User::create($request->validated());
 
         Wallet::create([
             'user_id' => $user->id,

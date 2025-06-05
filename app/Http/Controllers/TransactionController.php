@@ -66,6 +66,6 @@ class TransactionController extends Controller
         return response()->json([
             'message' => 'Transferência realizada com sucesso de ' . $payer->name . ' para ' . $payee->name .
                 ' no valor de R$' . number_format($validated['value'], 2, ',', '.'),
-        ], Response::HTTP_ACCEPTED);
+        ], Response::HTTP_CREATED);
     }
 }
