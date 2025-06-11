@@ -111,7 +111,7 @@ Realiza a transferência de saldo entre usuários.
 
 ## 🗄 ️ Diagrama do banco de dados
 
-    ![Diagrama ER](https://raw.githubusercontent.com/VtsAshDev/GreenBank/main/docs/db-diagram.svg)
+    [![Diagrama ER](https://raw.githubusercontent.com/VtsAshDev/GreenBank/main/docs/db-diagram.svg)](https://github.com/VtsAshDev/GreenBank/blob/main/docs/db-diagram.svg)
 
 
 ## ✅ Requisitos atendidos
