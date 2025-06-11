@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: greenbank-app
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+        ports:
+            - "8000:8000"
+        depends_on:
+            - rabbitmq
+            - mysql
+        command: php artisan serve --host=0.0.0.0 --port=8000
+
+    rabbitmq:
+        image: rabbitmq:3-management
+        container_name: greenbank-rabbitmq
+        ports:
+            - "5672:5672"
+            - "15672:15672"
+        environment:
+            RABBITMQ_DEFAULT_USER: guest
+            RABBITMQ_DEFAULT_PASS: guest
+
+    mysql:
+        image: mysql:8.0
+        container_name: greenbank-mysql
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: root_password
+            MYSQL_DATABASE: greenbank
+            MYSQL_USER: user
+            MYSQL_PASSWORD: user_password
+        ports:
+            - "3306:3306"
+        volumes:
+            - mysql-data:/var/lib/mysql
+
+volumes:
+    mysql-data:

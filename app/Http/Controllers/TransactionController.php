@@ -57,7 +57,7 @@ class TransactionController extends Controller
             ]);
         });
 
-        Mail::to($payer->email)->send(new TransferEmail($payer, $payee, $validated['value']));
+        Mail::to($payer->email)->queue(new TransferEmail($payer, $payee, $validated['value']));
 
         $this->notification->notify([
             'transaction_id' => $transaction->id,
