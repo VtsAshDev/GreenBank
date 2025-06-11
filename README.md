@@ -16,7 +16,8 @@ Implementar uma API RESTful usando Laravel para simular funcionalidades básicas
 
 ## 🚀 Funcionalidades
 
-- Transferência de saldo entre usuários (`POST /transfer`)
+- Cadastro de usuários (`POST /api/store`)
+- Transferência de saldo entre usuários (`POST /api/transfer`)
 - Verificação de saldo suficiente
 - Lojistas não podem enviar dinheiro, apenas receber
 - Validação externa via mock de autorização
@@ -27,8 +28,9 @@ Implementar uma API RESTful usando Laravel para simular funcionalidades básicas
 
 - Laravel (PHP Framework)
 - Composer
-- Docker (se estiver usando container)
-- MySQL/PostgreSQL
+- Docker + Docker Compose
+- MySQL
+- RabbitMQ
 - PHPUnit (para testes)
 
 ## 🔐 Regras de negócio
@@ -37,52 +39,81 @@ Implementar uma API RESTful usando Laravel para simular funcionalidades básicas
 - Lojistas não podem transferir saldo
 - Usuários precisam de saldo suficiente
 - Toda transferência deve:
-  - Ser validada por um serviço externo (`GET https://util.devi.tools/api/v2/authorize`)
-  - Gerar uma notificação via outro serviço (`POST https://util.devi.tools/api/v1/notify`)
+    - Ser validada por um serviço externo (`GET https://util.devi.tools/api/v2/authorize`)
+    - Gerar uma notificação via outro serviço (`POST https://util.devi.tools/api/v1/notify`)
 - Transferências devem ser transacionais (não pode debitar sem creditar o outro)
 
-## 🛠 Como rodar o projeto
+## 🛠 Como rodar o projeto com Docker
 
 1. Clone o repositório:
    ```bash
-   git clone https://github.com/seuusuario/GreenBank.git
+   git clone https://github.com/VtsAshDev/GreenBank
    cd GreenBank
    ```
 
-2. Instale as dependências:
-   ```bash
-   composer install
-   ```
-
-3. Copie o arquivo `.env.example` para `.env` e configure:
+2. Copie o `.env.example` para `.env`:
    ```bash
    cp .env.example .env
-   php artisan key:generate
    ```
 
-4. Configure o banco de dados no `.env`
-
-5. Execute as migrations:
+3. Suba os containers com Docker Compose:
    ```bash
+   docker compose up -d
+   ```
+
+4. Acesse o container do Laravel e finalize a instalação:
+   ```bash
+   docker exec -it nome_do_container_laravel bash
+   composer install
+   php artisan key:generate
    php artisan migrate
    ```
 
-6. Rode a aplicação:
-   ```bash
-   php artisan serve
-   ```
+5. A aplicação estará disponível em `http://localhost:8000`
 
-7. Teste o endpoint de transferência:
-   ```http
-   POST /api/transfer
-   Content-Type: application/json
+---
 
-   {
-     "value": 100.0,
-     "payer": 4,
-     "payee": 15
-   }
-   ```
+## 🔗 Endpoints da API
+
+### 📥 `POST /api/store` – Cadastrar novo usuário
+
+**Descrição:**  
+Cria um novo usuário comum ou lojista.
+
+**JSON de exemplo:**
+```json
+{
+  "name": "Vitor Gomes Guimarães",
+  "email": "vitorexg@email.com",
+  "document": "12345678900",
+  "password": "senha123",
+  "shopkeeper": false,
+  "balance": 500.00
+}
+```
+
+---
+
+### 💸 `POST /api/transfer` – Realizar transferência
+
+**Descrição:**  
+Realiza a transferência de saldo entre usuários.
+
+**JSON de exemplo:**
+```json
+{
+    "payer_id":	1,
+    "payee_id": 2,
+    "value": 3
+}
+```
+
+---
+
+## 🗄 ️ Diagrama do banco de dados
+
+    ![Diagrama ER](docs/db-diagram.svg)
+
 
 ## ✅ Requisitos atendidos
 
@@ -91,6 +122,7 @@ Implementar uma API RESTful usando Laravel para simular funcionalidades básicas
 - [x] Validação externa de autorização
 - [x] Mock de notificação
 - [x] Transação segura
+- [x] Ambiente Dockerizado com Laravel, MySQL e RabbitMQ
 
 ## 📚 O que foi considerado
 
@@ -98,7 +130,7 @@ Implementar uma API RESTful usando Laravel para simular funcionalidades básicas
 - Separação de camadas (service, controller, repository)
 - Aplicação de boas práticas (PSR, SOLID)
 - Uso de Git com histórico de commits claro
-- Preparado para Docker (se aplicável)
+- Preparado para execução via Docker com Dockerfile e docker-compose.yml
 
 ## 📌 Melhorias possíveis
 
@@ -106,7 +138,7 @@ Implementar uma API RESTful usando Laravel para simular funcionalidades básicas
 - Testes automatizados
 - Versionamento de API
 - Monitoramento e logging
-- Mensageria assíncrona (ex: RabbitMQ)
+- Processamento assíncrono de eventos com RabbitMQ
 
 ## 🧑 Informações do autor
 
