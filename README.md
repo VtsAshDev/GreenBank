@@ -91,7 +91,7 @@ Cria um novo usuário comum ou lojista.
 }
 ```
 
----
+--- 
 
 ### 💸 `POST /api/transfer` – Realizar transferência
 
